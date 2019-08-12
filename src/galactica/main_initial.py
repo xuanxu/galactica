@@ -1,8 +1,10 @@
 import math
 from . import halo, disk
 
+
 halo_virial_mass = 1e12  # [5e10, 1e13] Msol
-disk_mass =1e11         # [1.25e8, 5.3e11] Msol
+disk_mass = 1e11  # [1.25e8, 5.3e11] Msol
+max_radio_kpc = 16
 
 
 def total_mass(radio_kpc):
