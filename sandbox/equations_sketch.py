@@ -8,7 +8,6 @@
   Stars are divided in two groups:
     1) Low/intermediate mass stars (m <= 4 Msun)
     2) Massive stars (m > 4 Msun)
-
   So the 1 and 2 subscripts refer to this groups.
 
   The d and h subscripts correspond to disc and halo.
@@ -34,16 +33,23 @@
 '''
 
 initial_values = []
+
+gas_H = initial_values[0]
+s1h = initial_values[2]
+s2h = initial_values[3]
+
+
 equations = []
-r = radio
+
+equations[0] = -((Kh1 + Kh2) * gas_H_n) - (f * gas_H) + Wh
+equations[1] = 0.0
+equations[2] = (Kh1 * gas_H_n) - D1h
+equations[3] = (Kh2 * gas_H_n) - D2h
 
 
-equations[0] = -(Kh1(r) + Kh2(r)) * gas_H_n(r) - f(r)* gas_H(r) + Wh(r)
-equations[1] = Kh1(r) * gas_H_n(r) - D1h(r)
-equations[2] = Kh2(r) * gas_H_n(r) - D2h(r)
-
-
-
-def gas_H_n(r):
+def gas_H_n:
     n = 1.5
-    return gas_H(r) ** n
+    return gas_H ** n
+
+
+def Kh1():
