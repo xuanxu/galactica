@@ -1,9 +1,9 @@
 '''
-  H = hydrogen
-  f = infall rate
   gas_H = diffuse gas in the galactic Halo
   gas_D = diffuse gas in the galactic Disc
-  gas_c = molecular gas
+  cloud_H = molecular gas in the halo
+  cloud_D = molecular gas in the disc
+  f = infall rate
 
   Stars are divided in two groups:
     1) Low/intermediate mass stars (m <= 4 Msun)
@@ -32,13 +32,21 @@
   Wh = Restitution rate in the halo
 '''
 
+# Constants
+radio_kpc = 8  # radio of the region in kiloparsecs
+G = 0.45  # Gravitational constant in Kpc^3/(10^9Msun * 10^7yrs)
+
+
+# Initial values of the system (y)
 initial_values = []
 
 gas_H = initial_values[0]
+cloud_H = initial_values[1]
 s1h = initial_values[2]
 s2h = initial_values[3]
 
 
+# Derivatives (ẏ)
 equations = []
 
 equations[0] = -((Kh1 + Kh2) * gas_H_n) - (f * gas_H) + Wh
@@ -52,4 +60,5 @@ def gas_H_n:
     return gas_H ** n
 
 
-def Kh1():
+def Kh():
+    eps_h * (G / Vh)**0.5
