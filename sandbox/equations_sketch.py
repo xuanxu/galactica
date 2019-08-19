@@ -34,7 +34,7 @@
 
 # Constants
 radio_kpc = 8  # radio of the region in kiloparsecs
-G = 0.45  # Gravitational constant in Kpc^3/(10^9Msun * 10^7yrs)
+G = 0.44985  # Gravitational constant in Kpc^3/(10^9Msun * 10^7yrs)
 
 
 # Initial values of the system (y)
