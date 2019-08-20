@@ -1,3 +1,5 @@
+import math
+
 '''
   gas_H = diffuse gas in the galactic Halo
   gas_D = diffuse gas in the galactic Disc
@@ -33,7 +35,10 @@
 '''
 
 # Constants
-radio_kpc = 8  # radio of the region in kiloparsecs
+radio_kpc = 16  # radio of the circular region in kiloparsecs
+region_side_kpc = 1  # side length of the square region in kiloparsecs
+distance_to_galactic_center_kpc = 8  # distance of the region to the galactic center in kiloparsecs
+halo_radio = 500  # radio of the halo
 G = 0.44985  # Gravitational constant in Kpc^3/(10^9Msun * 10^7yrs)
 
 
@@ -62,3 +67,9 @@ def gas_H_n:
 
 def Kh():
     eps_h * (G / Vh)**0.5
+
+
+def volume_halo():
+    h = math.sqrt((halo_radio ** 2) - (distance_to_galactic_center_kpc ** 2))
+    square_base = region_side_kpc * region_side_kpc
+    return square_base * 2 * h
