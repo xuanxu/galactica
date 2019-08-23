@@ -35,42 +35,52 @@ import math
 '''
 
 # Constants
+ring_width_kpc = 1  # radio of the ring region in kiloparsecs
 region_side_kpc = 1  # side length of the square region in kiloparsecs
 galactocentric_radio_kpc = 8  # distance of the region to the galactic center in kiloparsecs
 halo_radio_kpc = 110  # radio of the halo in kiloparsecs
 disk_height_kpc = 0.2  # height of the disk in kiloparsecs
 G = 0.44985  # Gravitational constant in Kpc^3/(10^9Msun * 10^7yrs)
 
+def model():
+    # Initial values of the system (y)
+    initial_values = []
 
-# Initial values of the system (y)
-initial_values = []
-
-gas_H = initial_values[0]
-cloud_H = initial_values[1]
-s1h = initial_values[2]
-s2h = initial_values[3]
-
-
-# Derivatives (ẏ)
-equations = []
-
-equations[0] = -((Kh1 + Kh2) * gas_H_n) - (f * gas_H) + Wh
-equations[1] = 0.0
-equations[2] = (Kh1 * gas_H_n) - D1h
-equations[3] = (Kh2 * gas_H_n) - D2h
+    gas_H = initial_values[0]
+    cloud_H = initial_values[1]
+    s1h = initial_values[2]
+    s2h = initial_values[3]
 
 
-def gas_H_n:
+    # Derivatives (ẏ)
+    equations = []
+
+    equations[0] = -((Kh1 + Kh2) * gas_H_n) - (f * gas_H) + Wh
+    equations[1] = 0.0
+    equations[2] = (Kh1 * gas_H_n) - D1h
+    equations[3] = (Kh2 * gas_H_n) - D2h
+
+
+def gas_H_n():
     n = 1.5
     return gas_H ** n
 
 
-def star_formation_factor_halo:
+def star_formation_factor_halo():
     efficiency = 0.03  # epsilon_h from Ferrini et at, 1994, ApJ 427, 745
     return efficiency * (G / volume_halo())**0.5
 
 
-def volume_halo():
-    h = math.sqrt((halo_radio_kpc ** 2) - (galactocentric_radio_kpc ** 2))
-    square_area = region_side_kpc * region_side_kpc
-    return square_area * 2 * h
+def volume_halo(region_shape='square'):
+    if region_shape == 'square':
+        h = math.sqrt((halo_radio_kpc ** 2) - (galactocentric_radio_kpc ** 2))
+        square_area = region_side_kpc * region_side_kpc
+        return square_area * 2 * h
+    elif region_shape == 'ring':
+        h = math.sqrt((halo_radio_kpc ** 2) - (galactocentric_radio_kpc ** 2))
+        ring_area = math.pi * (galactocentric_radio_kpc ** 2 -
+            (galactocentric_radio_kpc - ring_width_kpc) ** 2)
+        return ring_area * 2 * h
+    else:
+        raise Exception("Wrong region shape. Allowed options: [square, ring]")
+
