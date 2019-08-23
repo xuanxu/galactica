@@ -35,10 +35,10 @@ import math
 '''
 
 # Constants
-radio_kpc = 16  # radio of the circular region in kiloparsecs
 region_side_kpc = 1  # side length of the square region in kiloparsecs
-distance_to_galactic_center_kpc = 8  # distance of the region to the galactic center in kiloparsecs
-halo_radio = 500  # radio of the halo
+galactocentric_radio_kpc = 8  # distance of the region to the galactic center in kiloparsecs
+halo_radio_kpc = 110  # radio of the halo in kiloparsecs
+disk_height_kpc = 0.2  # height of the disk in kiloparsecs
 G = 0.44985  # Gravitational constant in Kpc^3/(10^9Msun * 10^7yrs)
 
 
@@ -65,11 +65,12 @@ def gas_H_n:
     return gas_H ** n
 
 
-def Kh():
-    eps_h * (G / Vh)**0.5
+def star_formation_factor_halo:
+    efficiency = 0.03  # epsilon_h from Ferrini et at, 1994, ApJ 427, 745
+    return efficiency * (G / volume_halo())**0.5
 
 
 def volume_halo():
-    h = math.sqrt((halo_radio ** 2) - (distance_to_galactic_center_kpc ** 2))
-    square_base = region_side_kpc * region_side_kpc
-    return square_base * 2 * h
+    h = math.sqrt((halo_radio_kpc ** 2) - (galactocentric_radio_kpc ** 2))
+    square_area = region_side_kpc * region_side_kpc
+    return square_area * 2 * h
