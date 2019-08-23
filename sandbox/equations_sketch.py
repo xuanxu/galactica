@@ -35,8 +35,7 @@ import math
 '''
 
 # Constants
-ring_width_kpc = 1  # radio of the ring region in kiloparsecs
-region_side_kpc = 1  # side length of the square region in kiloparsecs
+region_width_kpc = 1  # width of the region in kiloparsecs
 galactocentric_radio_kpc = 8  # distance of the region to the galactic center in kiloparsecs
 halo_radio_kpc = 110  # radio of the halo in kiloparsecs
 disk_height_kpc = 0.2  # height of the disk in kiloparsecs
@@ -74,12 +73,14 @@ def star_formation_factor_halo():
 def volume_halo(region_shape='square'):
     if region_shape == 'square':
         h = math.sqrt((halo_radio_kpc ** 2) - (galactocentric_radio_kpc ** 2))
-        square_area = region_side_kpc * region_side_kpc
+        square_area = region_width_kpc * region_width_kpc
         return square_area * 2 * h
     elif region_shape == 'ring':
         h = math.sqrt((halo_radio_kpc ** 2) - (galactocentric_radio_kpc ** 2))
-        ring_area = math.pi * (galactocentric_radio_kpc ** 2 -
-            (galactocentric_radio_kpc - ring_width_kpc) ** 2)
+        half_ring_width = 0.5 * region_width_kpc
+        ring_area = math.pi * (
+            (galactocentric_radio_kpc + half_ring_width) ** 2 -
+            (galactocentric_radio_kpc - half_ring_width) ** 2)
         return ring_area * 2 * h
     else:
         raise Exception("Wrong region shape. Allowed options: [square, ring]")
