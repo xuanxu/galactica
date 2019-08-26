@@ -1,4 +1,5 @@
 import math
+import collections
 
 '''
   gas_H = diffuse gas in the galactic Halo
@@ -43,26 +44,30 @@ G = 0.44985  # Gravitational constant in Kpc^3/(10^9Msun * 10^7yrs)
 
 def model():
     # Initial values of the system (y)
-    initial_values = []
+    initial_values = collections.defaultdict(float)
 
-    gas_H = initial_values[0]
-    cloud_H = initial_values[1]
-    s1h = initial_values[2]
-    s2h = initial_values[3]
-
-
-    # Derivatives (ẏ)
-    equations = []
-
-    equations[0] = -((Kh1 + Kh2) * gas_H_n) - (f * gas_H) + Wh
-    equations[1] = 0.0
-    equations[2] = (Kh1 * gas_H_n) - D1h
-    equations[3] = (Kh2 * gas_H_n) - D2h
-
-
-def gas_H_n():
+    gas_H = initial_values['gas_H']
     n = 1.5
-    return gas_H ** n
+    gas_H_n =  gas_H ** n
+    cloud_H = initial_values['cloud_H']
+    s1h = initial_values['s1h']
+    s2h = initial_values['s2h']
+
+
+    Kh1, Kh2 = star_formation_factor_halo()
+    f = 1
+    Wh = 0
+    D1h = 0
+    D2h = 0
+    # Derivatives (ẏ)
+    equations = {}
+
+    equations['g_halo'] = -((Kh1 + Kh2) * gas_H_n) - (f * gas_H) + Wh
+    equations['s_low_halo'] = 0.0
+    equations['s_low_halo'] = (Kh1 * gas_H_n) - D1h
+    equations['s_massive_halo'] = (Kh2 * gas_H_n) - D2h
+
+    return equations
 
 
 def star_formation_factor_halo():
