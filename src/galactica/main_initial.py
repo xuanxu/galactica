@@ -27,4 +27,3 @@ def collapse_time(radio_kpc):
     """ infall rate in Gyr """
     tau = -13.2 / math.log(1 - (delta_disk_mass(radio_kpc) / delta_total_mass(radio_kpc)))
     return tau
-

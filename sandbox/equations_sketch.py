@@ -42,28 +42,29 @@ halo_radio_kpc = 110  # radio of the halo in kiloparsecs
 disk_height_kpc = 0.2  # height of the disk in kiloparsecs
 G = 0.44985  # Gravitational constant in Kpc^3/(10^9Msun * 10^7yrs)
 
+
 def model():
     # Initial values of the system (y)
     initial_values = collections.defaultdict(float)
 
-    gas_H = initial_values['gas_H']
+    gas_H = initial_values['gas_halo']
     n = 1.5
-    gas_H_n =  gas_H ** n
-    cloud_H = initial_values['cloud_H']
-    s1h = initial_values['s1h']
-    s2h = initial_values['s2h']
-
+    gas_H_n = gas_H ** n
+    cloud_H = initial_values['cloud_halo']
+    s1h = initial_values['s_low_halo']
+    s2h = initial_values['s_massive_halo']
 
     Kh1, Kh2 = star_formation_factor_halo()
     f = 1
     Wh = 0
     D1h = 0
     D2h = 0
+
     # Derivatives (ẏ)
     equations = {}
 
-    equations['g_halo'] = -((Kh1 + Kh2) * gas_H_n) - (f * gas_H) + Wh
-    equations['s_low_halo'] = 0.0
+    equations['gas_halo'] = -((Kh1 + Kh2) * gas_H_n) - (f * gas_H) + Wh
+    equations['cloud_halo'] = 0.0
     equations['s_low_halo'] = (Kh1 * gas_H_n) - D1h
     equations['s_massive_halo'] = (Kh2 * gas_H_n) - D2h
 
