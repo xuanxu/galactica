@@ -67,7 +67,8 @@ def gas_H_n():
 
 def star_formation_factor_halo():
     efficiency = 0.03  # epsilon_h from Ferrini et at, 1994, ApJ 427, 745
-    return efficiency * (G / volume_halo())**0.5
+    factor = efficiency * (G / volume_halo())**0.5
+    return [factor*0.5, factor*0.5]
 
 
 def volume_halo(region_shape='square'):
