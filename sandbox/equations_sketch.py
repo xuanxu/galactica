@@ -38,7 +38,7 @@ import collections
 # Constants
 region_width_kpc = 1  # width of the region in kiloparsecs
 region_galactocentric_radio_kpc = 8  # distance of the region to the galactic center in kiloparsecs
-halo_radio_kpc = 110  # radio of the halo in kiloparsecs
+halo_radio_kpc = 260.996  # radio of the halo in kiloparsecs
 disk_height_kpc = 0.2  # height of the disk in kiloparsecs
 G = 0.44985  # Gravitational constant in Kpc^3/(10^9Msun * 10^7yrs)
 
@@ -72,7 +72,7 @@ def model():
 
 
 def star_formation_factor_halo():
-    efficiency = 0.03  # epsilon_h from Ferrini et at, 1994, ApJ 427, 745
+    efficiency = 2.173  # epsilon_h computed for a best value K_h = 9e-3 able to reproduce SFR and abundances of MWG halo
     factor = efficiency * (G / volume_halo())**0.5
     return [factor*0.5, factor*0.5]
 
@@ -90,6 +90,7 @@ def volume_halo(region_shape='square'):
         return ring_area * 2 * h
     else:
         raise Exception("Wrong region shape. Allowed options: [square, ring]")
+
 
 def volume_disk(region_shape='square'):
     if region_shape == 'square':
