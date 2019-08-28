@@ -78,16 +78,28 @@ def star_formation_factor_halo():
 
 
 def volume_halo(region_shape='square'):
+    h = math.sqrt((halo_radio_kpc ** 2) - (region_galactocentric_radio_kpc ** 2))
     if region_shape == 'square':
-        h = math.sqrt((halo_radio_kpc ** 2) - (region_galactocentric_radio_kpc ** 2))
         square_area = region_width_kpc * region_width_kpc
         return square_area * 2 * h
     elif region_shape == 'ring':
-        h = math.sqrt((halo_radio_kpc ** 2) - (region_galactocentric_radio_kpc ** 2))
         half_ring_width = 0.5 * region_width_kpc
         ring_area = math.pi * (
             (region_galactocentric_radio_kpc + half_ring_width) ** 2 -
             (region_galactocentric_radio_kpc - half_ring_width) ** 2)
         return ring_area * 2 * h
+    else:
+        raise Exception("Wrong region shape. Allowed options: [square, ring]")
+
+def volume_disk(region_shape='square'):
+    if region_shape == 'square':
+        square_area = region_width_kpc * region_width_kpc
+        return square_area * disk_height_kpc
+    elif region_shape == 'ring':
+        half_ring_width = 0.5 * region_width_kpc
+        ring_area = math.pi * (
+            (region_galactocentric_radio_kpc + half_ring_width) ** 2 -
+            (region_galactocentric_radio_kpc - half_ring_width) ** 2)
+        return ring_area * disk_height_kpc
     else:
         raise Exception("Wrong region shape. Allowed options: [square, ring]")
