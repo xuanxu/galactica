@@ -18,4 +18,4 @@ Galactica
 
 |travis-badge| |license| |current_status|
 
-Galactica code solves a system of first-order integro-differential equations, assuming an analytical star formation (SF) law, an initial mass function (IMF), stellar lifetimes and nucleosynthetic yields.
+Galactica code solves a system of first-order integro-differential equations for the chemical evolution of a spiral galaxy, assuming an analytical star formation (SF) law, an initial mass function (IMF), stellar lifetimes and nucleosynthetic yields.
