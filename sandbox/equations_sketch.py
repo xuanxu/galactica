@@ -41,6 +41,8 @@ region_galactocentric_radio_kpc = 8  # distance of the region to the galactic ce
 halo_radio_kpc = 260.996  # radio of the halo in kiloparsecs
 disk_height_kpc = 0.2  # height of the disk in kiloparsecs
 G = 0.44985  # Gravitational constant in Kpc^3/(10^9Msun * 10^7yrs)
+virial_mass = 1e12  # Virial mass of the dark matter halo
+disc_barionic_mass = 1e11  # Mass of the barionic disc
 
 
 def model():
