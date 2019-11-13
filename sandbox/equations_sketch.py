@@ -58,7 +58,10 @@ def model():
 
     Kh1, Kh2 = star_formation_factor_halo()
     f = 1
+    Wd = 0
     Wh = 0
+    D1d = 0
+    D2d = 0
     D1h = 0
     D2h = 0
 
@@ -69,6 +72,8 @@ def model():
     equations['cloud_halo'] = 0.0
     equations['s_low_halo'] = (Kh1 * gas_H_n) - D1h
     equations['s_massive_halo'] = (Kh2 * gas_H_n) - D2h
+    equations['remnants_disk'] = D1d + D2d - Wd
+    equations['remnants_halo'] = D1h + D2h - Wh
 
     return equations
 
