@@ -50,13 +50,21 @@ def model():
     initial_values = collections.defaultdict(float)
 
     gas_H = initial_values['gas_halo']
+    gas_D = initial_values['gas_disk']
     n = 1.5
     gas_H_n = gas_H ** n
-    cloud_H = initial_values['cloud_halo']
-    s1h = initial_values['s_low_halo']
-    s2h = initial_values['s_massive_halo']
+    gas_D_n = gas_D ** n
+    molecular_gas_H = initial_values['molecular_gas_halo']
+    molecular_gas_D = initial_values['molecular_gas_disk']
+    S1h = equations['s_low_halo']
+    S2h = equations['s_massive_halo']
+    S1d = equations['s_low_disk']
+    S2d = equations['s_massive_disk']
 
     Kh1, Kh2 = star_formation_factor_halo()
+    Kc = star_formation_factor_cloud()
+    Ka1, Ka2, Ka_rest = star_formation_cloud_massive_stars_factor()
+    Ks1, Ks2, Ks_rest = star_formation_cloud_collisions_factor()
     f = 1
     Wd = 0
     Wh = 0
@@ -64,12 +72,15 @@ def model():
     D2d = 0
     D1h = 0
     D2h = 0
+    c = molecular_gas_D
 
     # Derivatives (ẏ)
     equations = {}
 
     equations['gas_halo'] = -((Kh1 + Kh2) * gas_H_n) - (f * gas_H) + Wh
+    equations['gas_disk'] = (-Kc * gas_D_n) + (Ka_rest * c * S2d) + (Ks_rest * c**2) + (f * gas_H) + Wd
     equations['cloud_halo'] = 0.0
+    equations['cloud_disk'] = (Kc * gas_D_n) - ((Ka1 + Ka2 + Ka_rest) * c * S2d) - ((Ks1 + Ks2 + Ks_rest) * c**2)
     equations['s_low_halo'] = (Kh1 * gas_H_n) - D1h
     equations['s_massive_halo'] = (Kh2 * gas_H_n) - D2h
     equations['remnants_disk'] = D1d + D2d - Wd
@@ -82,6 +93,18 @@ def star_formation_factor_halo():
     efficiency = 2.173  # epsilon_h computed for a best value K_h = 9e-3 able to reproduce SFR and abundances of MWG halo
     factor = efficiency * (G / volume_halo())**0.5
     return [factor*0.5, factor*0.5]
+
+
+def star_formation_factor_cloud():
+  return 1
+
+
+def star_formation_cloud_massive_stars_factor():
+  return [1, 1, 0.1]
+
+
+def star_formation_cloud_collisions_factor():
+  return [1, 1, 0.1]
 
 
 def volume_halo(region_shape='square'):
