@@ -48,6 +48,8 @@ disc_barionic_mass = 1e11  # Mass of the barionic disc
 def model():
     # Initial values of the system (y)
     initial_values = collections.defaultdict(float)
+    initial_values['gas_halo'] = virial_mass
+    initial_values['gas_disk'] = disc_barionic_mass
 
     gas_H = initial_values['gas_halo']
     gas_D = initial_values['gas_disk']
@@ -56,10 +58,10 @@ def model():
     gas_D_n = gas_D ** n
     molecular_gas_H = initial_values['molecular_gas_halo']
     molecular_gas_D = initial_values['molecular_gas_disk']
-    S1h = equations['s_low_halo']
-    S2h = equations['s_massive_halo']
-    S1d = equations['s_low_disk']
-    S2d = equations['s_massive_disk']
+    S1h = initial_values['s_low_halo']
+    S2h = initial_values['s_massive_halo']
+    S1d = initial_values['s_low_disk']
+    S2d = initial_values['s_massive_disk']
 
     Kh1, Kh2 = star_formation_factor_halo()
     Kc = star_formation_factor_cloud()
@@ -73,16 +75,19 @@ def model():
     D1h = 0
     D2h = 0
     c = molecular_gas_D
+    c2= c ** 2
 
     # Derivatives (ẏ)
     equations = {}
 
     equations['gas_halo'] = -((Kh1 + Kh2) * gas_H_n) - (f * gas_H) + Wh
-    equations['gas_disk'] = (-Kc * gas_D_n) + (Ka_rest * c * S2d) + (Ks_rest * c**2) + (f * gas_H) + Wd
+    equations['gas_disk'] = (-Kc * gas_D_n) + (Ka_rest * c * S2d) + (Ks_rest * c2) + (f * gas_H) + Wd
     equations['cloud_halo'] = 0.0
-    equations['cloud_disk'] = (Kc * gas_D_n) - ((Ka1 + Ka2 + Ka_rest) * c * S2d) - ((Ks1 + Ks2 + Ks_rest) * c**2)
+    equations['cloud_disk'] = (Kc * gas_D_n) - ((Ka1 + Ka2 + Ka_rest) * c * S2d) - ((Ks1 + Ks2 + Ks_rest) * c2)
     equations['s_low_halo'] = (Kh1 * gas_H_n) - D1h
     equations['s_massive_halo'] = (Kh2 * gas_H_n) - D2h
+    equations['s_low_disk'] = (Ks1 * c2) + (Ka1 * c * S2d) - D1d
+    equations['s_massive_disk'] = (Ks2 * c2) + (Ka2 * c * S2d) - D2d
     equations['remnants_disk'] = D1d + D2d - Wd
     equations['remnants_halo'] = D1h + D2h - Wh
 
