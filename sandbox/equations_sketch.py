@@ -78,18 +78,19 @@ def model():
     c2= c ** 2
 
     # Derivatives (ẏ)
-    equations = {}
+    equations = {'halo': {}, 'disk': {}}
 
-    equations['gas_halo'] = -((Kh1 + Kh2) * gas_H_n) - (f * gas_H) + Wh
-    equations['gas_disk'] = (-Kc * gas_D_n) + (Ka_rest * c * S2d) + (Ks_rest * c2) + (f * gas_H) + Wd
-    equations['cloud_halo'] = 0.0
-    equations['cloud_disk'] = (Kc * gas_D_n) - ((Ka1 + Ka2 + Ka_rest) * c * S2d) - ((Ks1 + Ks2 + Ks_rest) * c2)
-    equations['s_low_halo'] = (Kh1 * gas_H_n) - D1h
-    equations['s_massive_halo'] = (Kh2 * gas_H_n) - D2h
-    equations['s_low_disk'] = (Ks1 * c2) + (Ka1 * c * S2d) - D1d
-    equations['s_massive_disk'] = (Ks2 * c2) + (Ka2 * c * S2d) - D2d
-    equations['remnants_disk'] = D1d + D2d - Wd
-    equations['remnants_halo'] = D1h + D2h - Wh
+
+    equations['disk']['gas'] = (-Kc * gas_D_n) + (Ka_rest * c * S2d) + (Ks_rest * c2) + (f * gas_H) + Wd
+    equations['disk']['cloud'] = (Kc * gas_D_n) - ((Ka1 + Ka2 + Ka_rest) * c * S2d) - ((Ks1 + Ks2 + Ks_rest) * c2)
+    equations['disk']['stars_low'] = (Ks1 * c2) + (Ka1 * c * S2d) - D1d
+    equations['disk']['stars_massive'] = (Ks2 * c2) + (Ka2 * c * S2d) - D2d
+    equations['disk']['remnants'] = D1d + D2d - Wd
+    equations['halo']['gas'] = -((Kh1 + Kh2) * gas_H_n) - (f * gas_H) + Wh
+    equations['halo']['cloud'] = 0.0
+    equations['halo']['stars_low'] = (Kh1 * gas_H_n) - D1h
+    equations['halo']['stars_massive'] = (Kh2 * gas_H_n) - D2h
+    equations['halo']['remnants'] = D1h + D2h - Wh
 
     return equations
 
