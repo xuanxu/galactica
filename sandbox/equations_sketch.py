@@ -95,6 +95,10 @@ def model():
     return equations
 
 
+def integrator(state):
+  pass
+
+
 def star_formation_factor_halo():
     efficiency = 2.173  # epsilon_h computed for a best value K_h = 9e-3 able to reproduce SFR and abundances of MWG halo
     factor = efficiency * (G / volume_halo())**0.5
