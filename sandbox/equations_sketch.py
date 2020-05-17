@@ -1,5 +1,6 @@
 import math
 import collections
+import intergalactic
 
 '''
   gas_H = diffuse gas in the galactic Halo
