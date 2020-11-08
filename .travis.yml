@@ -5,7 +5,8 @@ language: python
 python:
   - 3.6.12
   - 3.7.9
-  - 3.8.5
+  - 3.8.6
+  - 3.9.0
   - 3.8-dev
   - nightly
 
@@ -13,6 +14,7 @@ jobs:
   allow_failures:
     - python: nightly
     - python: 3.8-dev
+    - python: 3.9.0
 
 install:
   - pip install codecov
