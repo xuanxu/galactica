@@ -15,10 +15,11 @@ jobs:
           - "ubuntu-latest"
         python-version:
           - 3.7.17
-          - 3.8.17
-          - 3.9.17
-          - 3.10.12
-          - 3.11.4
+          - 3.8.18
+          - 3.9.19
+          - 3.10.14
+          - 3.11.9
+          - 3.12.3
     runs-on: ${{ matrix.os }}
     steps:
     - uses: actions/checkout@v3
