@@ -1,4 +1,4 @@
-pyyaml>=5.3
-numpy>=1.18
-scipy>=1.4
+pyyaml>=6.0
+numpy>=2.0
+scipy>=1.14
 starmatrix>=1.7.4
