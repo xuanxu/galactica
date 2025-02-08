@@ -34,4 +34,4 @@ jobs:
         pip install .[dev]
     - name: Test against installed code
       run: pytest -v --cov-report=xml --cov=galactica
-    - uses: codecov/codecov-action@v4
+    - uses: codecov/codecov-action@v5
