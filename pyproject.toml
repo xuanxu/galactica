@@ -1,7 +1,16 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
 [project]
 name = "galactica"
-version = "0.1.0"
+dynamic = ["version"]
 description = "Galactic multiphase chemical evolution model"
+authors = [{name = "Juanjo Bazán", email = "hello@juanjobazan.com"}]
+maintainers = [{name = "Juanjo Bazán", email = "hello@juanjobazan.com"}]
+keywords = ["galaxies", "models", "astrophysics"]
+license = "MIT"
+license-files = ["LICENSE"]
 readme = "README.md"
 requires-python = ">=3.13"
 dependencies = [
@@ -10,3 +19,31 @@ dependencies = [
   "scipy>=1.15",
   "starmatrix>=1.7.4",
 ]
+classifiers = [
+  "Development Status :: 2 - Pre-Alpha",
+  "Intended Audience :: Science/Research",
+  "Intended Audience :: Education",
+  "License :: OSI Approved :: MIT License",
+  "Operating System :: OS Independent",
+  "Programming Language :: Python",
+  "Programming Language :: Python :: 3",
+  "Programming Language :: Python :: 3.13",
+  "Programming Language :: Python :: Implementation :: CPython",
+  "Topic :: Scientific/Engineering",
+  "Topic :: Scientific/Engineering :: Astronomy",
+  "Topic :: Scientific/Engineering :: Physics",
+]
+[project.urls]
+Homepage = "https://github.com/xuanxu/galactica"
+Documentation = "https://github.com/xuanxu/galactica"
+Repository = "https://github.com/xuanxu/galactica.git"
+Issues = "https://github.com/xuanxu/galactica/issues"
+Changelog = "https://github.com/xuanxu/galactica/blob/main/CHANGELOG.md"
+
+[tool.hatch.version]
+path = "src/galactica/__init__.py"
+
+[tool.pytest]
+python_files = "test_*.py"
+addopts = "-v --cov=galactica"
+testpaths = "src/galactica/tests"
