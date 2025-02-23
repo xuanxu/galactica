@@ -25,13 +25,11 @@ jobs:
         python-version: ${{ matrix.python-version }}
     - name: Install dependencies
       run: |
-        python -m pip install --upgrade pip
-        pip install -U pytest
-        pip install codecov
+        python -m pip install uv
     - name: Install Galactica
       run: |
-        pip install .
-        pip install .[dev]
+        uv pip install .
+        uv pip install .[dev]
     - name: Test against installed code
       run: pytest -v --cov-report=xml --cov=galactica
     - uses: codecov/codecov-action@v5
