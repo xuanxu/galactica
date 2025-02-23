@@ -41,7 +41,7 @@ Repository = "https://github.com/xuanxu/galactica.git"
 Issues = "https://github.com/xuanxu/galactica/issues"
 Changelog = "https://github.com/xuanxu/galactica/blob/main/CHANGELOG.md"
 
-[options.extras_require]
+[dependency-groups]
 dev = [
   "pytest>=8.3",
   "pytest_mock",
