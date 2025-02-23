@@ -33,12 +33,20 @@ classifiers = [
   "Topic :: Scientific/Engineering :: Astronomy",
   "Topic :: Scientific/Engineering :: Physics",
 ]
+
 [project.urls]
 Homepage = "https://github.com/xuanxu/galactica"
 Documentation = "https://github.com/xuanxu/galactica"
 Repository = "https://github.com/xuanxu/galactica.git"
 Issues = "https://github.com/xuanxu/galactica/issues"
 Changelog = "https://github.com/xuanxu/galactica/blob/main/CHANGELOG.md"
+
+[options.extras_require]
+dev = [
+  "pytest>=8.3",
+  "pytest_mock",
+  "pytest_cov",
+]
 
 [tool.hatch.version]
 path = "src/galactica/__init__.py"
