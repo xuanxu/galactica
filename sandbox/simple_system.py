@@ -67,7 +67,7 @@ def disk_h(y, t, k):
   return dtdy
 
 # Define time points
-t = np.linspace(0, 14, 10000)
+t = np.linspace(0, 0.0014, 10000)
 
 # Define initial values
 y0 = initial_values()
@@ -93,4 +93,13 @@ plt.ylabel('Value in Msun')
 plt.legend()
 plt.show()
 
+# Using solve_ip
+# from scipy.integrate import solve_ivp
+# sol = solve_ivp(disk_h, [0, 14], y0)
+
+# plt.figure()
+# plt.plot(sol.y.T[:, 0], sol.y.T[:, 1])
+# plt.xlabel('x')
+# plt.ylabel('y')
+# plt.show()
 
