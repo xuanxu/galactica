@@ -118,7 +118,7 @@ def star_formation_cloud_collisions_factor():
   return [1, 1, 0.1]
 
 
-def volume_halo(region_shape='square'):
+def volume_halo(region_shape='ring'):
     h = math.sqrt((halo_radio_kpc ** 2) - (region_galactocentric_radio_kpc ** 2))
     if region_shape == 'square':
         square_area = region_width_kpc * region_width_kpc
@@ -133,7 +133,7 @@ def volume_halo(region_shape='square'):
         raise Exception("Wrong region shape. Allowed options: [square, ring]")
 
 
-def volume_disk(region_shape='square'):
+def volume_disk(region_shape='ring'):
     if region_shape == 'square':
         square_area = region_width_kpc * region_width_kpc
         return square_area * disk_height_kpc
