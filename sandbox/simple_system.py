@@ -67,7 +67,7 @@ def disk_h(y, t, k):
   return dtdy
 
 # Define time points
-t = np.linspace(0, 0.0014, 10000)
+t = np.linspace(0, 13.2, 100)
 
 # Define initial values
 y0 = initial_values()
