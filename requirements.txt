@@ -1,4 +1,4 @@
 pyyaml>=6.0
-numpy>=2.3
-scipy>=1.16
+numpy>=2.4
+scipy>=1.17
 starmatrix=1.7.4
