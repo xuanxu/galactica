@@ -4,7 +4,7 @@ build-backend = "hatchling.build"
 
 [project]
 name = "galactica"
-dynamic = ["version"]
+version = "0.1.0"
 description = "Galactic multiphase chemical evolution model"
 authors = [{name = "Juanjo Bazán", email = "hello@juanjobazan.com"}]
 maintainers = [{name = "Juanjo Bazán", email = "hello@juanjobazan.com"}]
