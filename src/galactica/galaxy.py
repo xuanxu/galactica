@@ -34,6 +34,26 @@ class Galaxy:
         massive_stars_factor = factor*0.5
         return [low_stars_factor, massive_stars_factor]
 
+    def star_formation_rates(self, values, params):
+        """Compute SFR for halo and disk
+
+        ΨH = (Kh1 + Kh2) * gH^n
+        ΨD = (Ks1 + Ks2) * c^2 + (Ka1 + Ka2) * c * s2D
+        """
+        values = np.asarray(values)
+        disk_H2_gas      = values[1]
+        disk_massive_stars = values[3]
+        halo_H_gas       = values[5]
+
+        Kh1, Kh2 = params["star_formation_in_halo"]
+        Ks1, Ks2 = params["star_formation_cloud_cloud_collisions"][:2]
+        Ka1, Ka2 = params["star_formation_cloud_massive_stars_collisions"][:2]
+
+        psi_halo = (Kh1 + Kh2) * halo_H_gas ** 1.5
+        psi_disk = (Ks1 + Ks2) * disk_H2_gas ** 2 + (Ka1 + Ka2) * disk_H2_gas * disk_massive_stars
+
+        return psi_halo, psi_disk
+
     def volume_halo(self, region_shape='ring'):
         h = np.sqrt((self.params["halo_radio_kpc"] ** 2) - (self.params["region_galactocentric_radio_kpc"] ** 2))
         if region_shape == 'square':
