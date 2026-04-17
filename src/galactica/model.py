@@ -8,10 +8,10 @@ from galaxy import Galaxy
 g = Galaxy()
 
 time_span = [0, 13.2]
-time_eval = np.linspace(time_span[0], time_span[1], 10)
+time_eval = np.linspace(time_span[0], time_span[1], 1000)
 radius = 1
 
-solution = solve_ivp(g.model, time_span, g.initial_values(), args=(g.parameters(radius),), t_eval=time_eval)
+solution = solve_ivp(g.model, time_span, g.initial_values(), args=(g.parameters(radius),), t_eval=time_eval, method='Radau')
 
 t = solution.t
 y = solution.y[0]
