@@ -79,7 +79,7 @@ class Galaxy:
 
         return params
 
-    def model(self, t, values, params):
+    def evolution_step(self, t, values, params):
 
         disk_H_gas, disk_H2_gas, disk_low_mass_stars, disk_massive_stars, disk_stars_remnants, \
             halo_H_gas, halo_low_mass_stars, halo_massive_stars, halo_stars_remnants = values

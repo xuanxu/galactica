@@ -12,7 +12,7 @@ time_eval = np.linspace(time_span[0], time_span[1], 1000)
 radius = 1
 params = g.parameters(radius)
 
-solution = solve_ivp(g.model, time_span, g.initial_values(), args=(params,), t_eval=time_eval, method='Radau')
+solution = solve_ivp(g.evolution_step, time_span, g.initial_values(), args=(params,), t_eval=time_eval, method='Radau')
 t = solution.t
 y = solution.y
 
