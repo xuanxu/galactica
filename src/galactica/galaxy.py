@@ -68,6 +68,20 @@ class Galaxy:
         else:
             raise Exception("Wrong region shape for halo. Allowed options: [square, ring]")
 
+    def volume_disk(self, region_shape='ring'):
+        h = self.params["disk_height_kpc"]
+        if region_shape == 'square':
+            square_area = self.params["region_width_kpc"] ** 2
+            return square_area * h
+        elif region_shape == 'ring':
+            half_ring_width = 0.5 * self.params["region_width_kpc"]
+            ring_area = np.pi * (
+                (self.params["region_galactocentric_radio_kpc"] + half_ring_width) ** 2 -
+                (self.params["region_galactocentric_radio_kpc"] - half_ring_width) ** 2)
+            return ring_area * h
+        else:
+            raise Exception("Wrong region shape for disk. Allowed options: [square, ring]")
+
     def parameters(self, radius=1):
         params = collections.defaultdict(float)
         params["radius"] = radius
