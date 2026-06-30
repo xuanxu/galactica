@@ -126,23 +126,23 @@ class Galaxy:
         Wh = 0
 
         # Death rates for low-mass (<8 Msun) and massive (>8 Msun) stars
-        D1d = 0
-        D2d = 0
-        D1h = 0
-        D2h = 0
+        disk_death_rate_low_mass = 0
+        disk_death_rate_massive = 0
+        halo_death_rate_low_mass = 0
+        halo_death_rate_massive = 0
 
         infall_rate = params["infall_rate"]
 
         dt_disk_H_gas = (-Kc * disk_H_gas_n) + (Ka_rest * disk_H2_gas * S2d) + (Ks_rest * disk_H2_gas_2) + (infall_rate * halo_H_gas) + Wd
         dt_disk_H2_gas = (Kc * disk_H_gas_n) - ((Ka1 + Ka2 + Ka_rest) * disk_H2_gas * S2d) - ((Ks1 + Ks2 + Ks_rest) * disk_H2_gas_2)
-        dt_disk_low_mass_stars = (Ks1 * disk_H2_gas_2) + (Ka1 * disk_H2_gas * S2d) - D1d
-        dt_disk_massive_stars = (Ks2 * disk_H2_gas_2) + (Ka2 * disk_H2_gas * S2d) - D2d
-        dt_disk_stars_remnants = D1d + D2d - Wd
+        dt_disk_low_mass_stars = (Ks1 * disk_H2_gas_2) + (Ka1 * disk_H2_gas * S2d) - disk_death_rate_low_mass
+        dt_disk_massive_stars = (Ks2 * disk_H2_gas_2) + (Ka2 * disk_H2_gas * S2d) - disk_death_rate_massive
+        dt_disk_stars_remnants = disk_death_rate_low_mass + disk_death_rate_massive - Wd
 
         dt_halo_H_gas = -((Kh1 + Kh2) * halo_H_gas_n) - (infall_rate * halo_H_gas) + Wh
-        dt_halo_low_mass_stars = (Kh1 * halo_H_gas_n) - D1h
-        dt_halo_massive_stars = (Kh2 * halo_H_gas_n) - D2h
-        dt_halo_stars_remnants = D1h + D2h - Wh
+        dt_halo_low_mass_stars = (Kh1 * halo_H_gas_n) - halo_death_rate_low_mass
+        dt_halo_massive_stars = (Kh2 * halo_H_gas_n) - halo_death_rate_massive
+        dt_halo_stars_remnants = halo_death_rate_low_mass + halo_death_rate_massive - Wh
 
         dtdy = [dt_disk_H_gas,
                 dt_disk_H2_gas,
