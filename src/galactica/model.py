@@ -9,7 +9,7 @@ g = Galaxy()
 
 time_span = [0, 13.2]
 time_eval = np.linspace(time_span[0], time_span[1], 1000)
-radius = 1
+radius = 8
 params = g.parameters(radius)
 
 solution = solve_ivp(g.evolution_step, time_span, g.initial_values(), args=(params,), t_eval=time_eval, method='Radau')
