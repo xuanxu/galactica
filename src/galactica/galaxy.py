@@ -1,5 +1,5 @@
 import collections
-import settings
+import galactica.settings as settings
 import numpy as np
 import matplotlib.pyplot as plt
 import starmatrix

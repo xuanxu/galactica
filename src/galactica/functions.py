@@ -1,5 +1,5 @@
 import math
-import settings
+import galactica.settings as settings
 
 
 halo_virial_mass = default_settings()["halo_virial_mass"]

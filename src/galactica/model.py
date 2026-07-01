@@ -2,7 +2,7 @@ import math
 import numpy as np
 import matplotlib.pyplot as plt
 from scipy.integrate import solve_ivp
-from galaxy import Galaxy
+from galactica.galaxy import Galaxy
 
 
 g = Galaxy()
