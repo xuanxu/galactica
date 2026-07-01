@@ -1,8 +1,9 @@
 import math
+import settings
 
-halo_virial_mass = 1e12  # [5e10, 1e13] Msol
-disk_mass = 1e11  # [1.25e8, 5.3e11] Msol
-max_radio_kpc = 16
+
+halo_virial_mass = default_settings()["halo_virial_mass"]
+disk_mass = default_settings()["disk_mass"]
 
 
 def total_mass(radio_kpc):

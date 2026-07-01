@@ -13,13 +13,17 @@ def default_settings():
     defaults["halo_radio_kpc"] = 260.996  # radio of the halo in kiloparsecs
     defaults["disk_height_kpc"] = 0.2  # height of the galactic disk in kiloparsecs
     defaults["G"] = 0.44985  # Gravitational constant in Kpc^3/(10^9Msun * 10^7yrs)
+    defaults["boundary_mass"] = 4.0 # Msun, boundary between low-mass and massive star groups
+    defaults["halo_virial_mass"] = 1e12  # [5e10, 1e13] Msol
+    defaults["disk_mass"] = 1e11  # [1.25e8, 5.3e11] Msol
+    defaults["max_radio"] = 16 # kpc
 
     return defaults
 
 
 def default_initial_values():
     # Disk
-    disk_H_gas = 1e11
+    disk_H_gas = default_settings()["disk_mass"]
     disk_H2_gas = 0.0
     disk_low_mass_stars = 0.0
     disk_massive_stars = 0.0
@@ -27,7 +31,7 @@ def default_initial_values():
     disk_death_low_mass_stars = 0.0
     disk_death_massive_stars = 0.0
     # Halo
-    halo_H_gas = 1e12
+    halo_H_gas = default_settings()["halo_virial_mass"]
     halo_H2_gas = 0.0
     halo_low_mass_stars = 0.0
     halo_massive_stars = 0.0
