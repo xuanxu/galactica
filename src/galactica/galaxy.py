@@ -78,9 +78,9 @@ class Galaxy:
         ΨD = (Ks1 + Ks2) * c^2 + (Ka1 + Ka2) * c * s2D
         """
         values = np.asarray(values)
-        disk_H2_gas      = values[1]
+        disk_H2_gas = values[1]
         disk_massive_stars = values[3]
-        halo_H_gas       = values[5]
+        halo_H_gas = values[5]
 
         Kh1, Kh2 = params["star_formation_in_halo"]
         Ks1, Ks2 = params["star_formation_cloud_cloud_collisions"][:2]
@@ -101,7 +101,6 @@ class Galaxy:
             z = params["metallicity"]
 
         return sm_functions.stellar_lifetime(m, z)
-
 
     def parameters(self, radius=1):
         params = collections.defaultdict(float)

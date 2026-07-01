@@ -12,11 +12,11 @@ def default_settings():
     defaults["region_galactocentric_radio_kpc"] = 8.0  # distance of the region to the galactic center in kiloparsecs
     defaults["halo_radio_kpc"] = 260.996  # radio of the halo in kiloparsecs
     defaults["disk_height_kpc"] = 0.2  # height of the galactic disk in kiloparsecs
-    defaults["G"] = 0.44985  # Gravitational constant in Kpc^3/(10^9Msun * 10^7yrs)
-    defaults["boundary_mass"] = 4.0 # Msun, boundary between low-mass and massive star groups
+    defaults["G"] = 0.44985   # Gravitational constant in Kpc^3/(10^9Msun * 10^7yrs)
+    defaults["boundary_mass"] = 4.0  # Msun, boundary between low-mass and massive star groups
     defaults["halo_virial_mass"] = 1e12  # [5e10, 1e13] Msol
     defaults["disk_mass"] = 1e11  # [1.25e8, 5.3e11] Msol
-    defaults["max_radio"] = 16 # kpc
+    defaults["max_radio"] = 16  # kpc
     defaults["metallicity"] = 0.02  # solar metallicity
     defaults["imf_min_mass"] = 0.1  # Msun
     defaults["imf_max_mass"] = 100  # Msun
