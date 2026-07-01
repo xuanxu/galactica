@@ -2,11 +2,20 @@ import collections
 import settings
 import numpy as np
 import matplotlib.pyplot as plt
+import starmatrix
+from starmatrix import elements as sm_elements
+from starmatrix import abundances as sm_abundances
+from starmatrix import imfs as sm_imfs
+from starmatrix import functions as sm_functions
+from starmatrix import settings as sm_settings
 
 
 class Galaxy:
     def __init__(self, initial_settings=settings.default_settings()):
         self.params = initial_settings
+        self.imf = sm_imfs.select_imf("kroupa2002", {})
+        self.expelled = sm_elements.Expelled(starmatrix.settings.default["expelled_elements_filename"])
+        self.abundances = sm_abundances.select_abundances("as09", self.params["metallicity"])
 
     def initial_values(self):
         return settings.default_initial_values()
@@ -33,26 +42,6 @@ class Galaxy:
         low_stars_factor = factor*0.5
         massive_stars_factor = factor*0.5
         return [low_stars_factor, massive_stars_factor]
-
-    def star_formation_rates(self, values, params):
-        """Compute SFR for halo and disk
-
-        ΨH = (Kh1 + Kh2) * gH^n
-        ΨD = (Ks1 + Ks2) * c^2 + (Ka1 + Ka2) * c * s2D
-        """
-        values = np.asarray(values)
-        disk_H2_gas      = values[1]
-        disk_massive_stars = values[3]
-        halo_H_gas       = values[5]
-
-        Kh1, Kh2 = params["star_formation_in_halo"]
-        Ks1, Ks2 = params["star_formation_cloud_cloud_collisions"][:2]
-        Ka1, Ka2 = params["star_formation_cloud_massive_stars_collisions"][:2]
-
-        psi_halo = (Kh1 + Kh2) * halo_H_gas ** 1.5
-        psi_disk = (Ks1 + Ks2) * disk_H2_gas ** 2 + (Ka1 + Ka2) * disk_H2_gas * disk_massive_stars
-
-        return psi_halo, psi_disk
 
     def volume_halo(self, region_shape='ring'):
         h = np.sqrt((self.params["halo_radio_kpc"] ** 2) - (self.params["region_galactocentric_radio_kpc"] ** 2))
@@ -81,6 +70,38 @@ class Galaxy:
             return ring_area * h
         else:
             raise Exception("Wrong region shape for disk. Allowed options: [square, ring]")
+
+    def star_formation_rates(self, values, params):
+        """Compute SFR for halo and disk
+
+        ΨH = (Kh1 + Kh2) * gH^n
+        ΨD = (Ks1 + Ks2) * c^2 + (Ka1 + Ka2) * c * s2D
+        """
+        values = np.asarray(values)
+        disk_H2_gas      = values[1]
+        disk_massive_stars = values[3]
+        halo_H_gas       = values[5]
+
+        Kh1, Kh2 = params["star_formation_in_halo"]
+        Ks1, Ks2 = params["star_formation_cloud_cloud_collisions"][:2]
+        Ka1, Ka2 = params["star_formation_cloud_massive_stars_collisions"][:2]
+
+        psi_halo = (Kh1 + Kh2) * halo_H_gas ** 1.5
+        psi_disk = (Ks1 + Ks2) * disk_H2_gas ** 2 + (Ka1 + Ka2) * disk_H2_gas * disk_massive_stars
+
+        return psi_halo, psi_disk
+
+    def imf(self, m):
+        """IMF via Starmatrix, consistent with return_fraction and Q-matrix."""
+        return self.imf.for_mass(m)
+
+    def stellar_lifetime(self, m, z=None):
+        """Main-sequence lifetime in Gyr via Starmatrix."""
+        if z is None:
+            z = params["metallicity"]
+
+        return sm_functions.stellar_lifetime(m, z)
+
 
     def parameters(self, radius=1):
         params = collections.defaultdict(float)
