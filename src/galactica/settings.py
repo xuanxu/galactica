@@ -18,7 +18,7 @@ def default_settings():
     defaults["disk_mass"] = 1e11  # [1.25e8, 5.3e11] Msol
     defaults["max_radio"] = 16  # kpc
     defaults["metallicity"] = 0.02  # solar metallicity
-    defaults["imf_min_mass"] = 0.1  # Msun
+    defaults["imf_min_mass"] = 0.15  # Msun
     defaults["imf_max_mass"] = 100  # Msun
 
     return defaults
