@@ -121,9 +121,9 @@ class Galaxy:
         radius = params["radius"]
 
         n = 1.5
-        disk_H_gas_n = disk_H_gas ** n
-        disk_H2_gas_2 = disk_H2_gas ** 2
-        halo_H_gas_n = halo_H_gas ** n
+        disk_H_gas_n = max(0.0, disk_H_gas) ** n
+        disk_H2_gas_2 = max(0.0, disk_H2_gas) ** 2
+        halo_H_gas_n = max(0.0, halo_H_gas) ** n
 
         # Star Formation factors
         Kc = params["cloud_formation_factor"]
