@@ -19,6 +19,7 @@ class Galaxy:
         self.imf = sm_imfs.select_imf("kroupa2002", {})
         self.expelled = sm_elements.Expelled(starmatrix.settings.default["expelled_elements_filename"])
         self.abundances = sm_abundances.select_abundances("as09", self.params["metallicity"])
+        self.return_fraction = sm_functions.return_fraction(self.params["imf_min_mass"], self.params["imf_max_mass"], self.expelled, self.imf)
 
     def initial_values(self):
         return settings.default_initial_values()
@@ -94,10 +95,6 @@ class Galaxy:
 
         return psi_halo, psi_disk
 
-    def imf(self, m):
-        """IMF via Starmatrix, consistent with return_fraction and Q-matrix."""
-        return self.imf.for_mass(m)
-
     def stellar_lifetime(self, m, z=None):
         """Main-sequence lifetime in Gyr via Starmatrix."""
         if z is None:
@@ -170,8 +167,6 @@ class Galaxy:
         Kh2 = params["star_formation_in_halo"][1]
 
         S2d = 1.0  # s_massive_disk dummy value
-        Wd = 0
-        Wh = 0
 
         # Death rates for low-mass (<8 Msun) and massive (>8 Msun) stars
         disk_death_rate_low_mass = 0
@@ -185,6 +180,9 @@ class Galaxy:
             disk_death_rate_massive = float(params["D2d_interp"](t))
             halo_death_rate_low_mass = float(params["D1h_interp"](t))
             halo_death_rate_massive = float(params["D2h_interp"](t))
+
+        Wd = self.return_fraction * (disk_death_rate_low_mass + disk_death_rate_massive)
+        Wh = self.return_fraction * (halo_death_rate_low_mass + halo_death_rate_massive)
 
         infall_rate = params["infall_rate"]
 
