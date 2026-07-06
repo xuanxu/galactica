@@ -2,6 +2,9 @@ import collections
 import galactica.settings as settings
 import numpy as np
 import matplotlib.pyplot as plt
+import warnings
+from scipy.optimize import brentq
+from scipy.integrate import quad, IntegrationWarning
 import starmatrix
 from starmatrix import elements as sm_elements
 from starmatrix import abundances as sm_abundances
@@ -98,7 +101,7 @@ class Galaxy:
     def stellar_lifetime(self, m, z=None):
         """Main-sequence lifetime in Gyr via Starmatrix."""
         if z is None:
-            z = params["metallicity"]
+            z = self.params["metallicity"]
 
         return sm_functions.stellar_lifetime(m, z)
 
@@ -112,6 +115,31 @@ class Galaxy:
         params["star_formation_cloud_massive_stars_collisions"] = self.star_formation_cloud_massive_stars_collisions_factors()  # Ka1 + Ka2 + Ka_restitution_of_diffuse_gas
 
         return params
+
+    def death_rate(self, t, psi_interp, m_low, m_high):
+        """Death rate integral at time t
+
+        D(t) = ∫[m_crit, m_high] ψ(t − τ(m)) · m · φ(m) dm
+
+        """
+        if t <= self.stellar_lifetime(m_high):
+            return 0.0
+
+        if t >= self.stellar_lifetime(m_low):
+            m_crit = m_low
+        else:
+            m_crit = brentq(lambda m: self.stellar_lifetime(m) - t, m_low, m_high, xtol=1e-4)
+
+        def integrand(m):
+            tau = self.stellar_lifetime(m)
+            return float(psi_interp(t - tau)) * m * self.imf.for_mass(m)
+
+        # Hint quad about Kroupa2002 IMF slope changes at 0.08, 0.5, 1.0 Msun
+        pts = [k for k in [0.08, 0.5, 1.0] if m_crit < k < m_high]
+        with warnings.catch_warnings():
+            warnings.simplefilter("ignore", IntegrationWarning)
+            result, _ = quad(integrand, m_crit, m_high, limit=200, points=pts)
+        return result
 
     def evolution_step(self, t, values, params):
 
@@ -150,6 +178,13 @@ class Galaxy:
         disk_death_rate_massive = 0
         halo_death_rate_low_mass = 0
         halo_death_rate_massive = 0
+
+        D1h_interp = params.get("D1h_interp")
+        if D1h_interp is not None:
+            disk_death_rate_low_mass = float(params["D1d_interp"](t))
+            disk_death_rate_massive = float(params["D2d_interp"](t))
+            halo_death_rate_low_mass = float(params["D1h_interp"](t))
+            halo_death_rate_massive = float(params["D2h_interp"](t))
 
         infall_rate = params["infall_rate"]
 
