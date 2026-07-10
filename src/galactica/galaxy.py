@@ -47,33 +47,21 @@ class Galaxy:
         massive_stars_factor = factor*0.5
         return [low_stars_factor, massive_stars_factor]
 
-    def volume_halo(self, region_shape='ring'):
+    def volume_halo(self):
         h = np.sqrt((self.params["halo_radio_kpc"] ** 2) - (self.params["region_galactocentric_radio_kpc"] ** 2))
-        if region_shape == 'square':
-            square_area = self.params["region_width_kpc"] ** 2
-            return square_area * 2 * h
-        elif region_shape == 'ring':
-            half_ring_width = 0.5 * self.params["region_width_kpc"]
-            ring_area = np.pi * (
-                (self.params["region_galactocentric_radio_kpc"] + half_ring_width) ** 2 -
-                (self.params["region_galactocentric_radio_kpc"] - half_ring_width) ** 2)
-            return ring_area * 2 * h
-        else:
-            raise Exception("Wrong region shape for halo. Allowed options: [square, ring]")
+        half_ring_width = 0.5 * self.params["region_width_kpc"]
+        ring_area = np.pi * (
+            (self.params["region_galactocentric_radio_kpc"] + half_ring_width) ** 2 -
+            (self.params["region_galactocentric_radio_kpc"] - half_ring_width) ** 2)
+        return ring_area * 2 * h
 
-    def volume_disk(self, region_shape='ring'):
+    def volume_disk(self):
         h = self.params["disk_height_kpc"]
-        if region_shape == 'square':
-            square_area = self.params["region_width_kpc"] ** 2
-            return square_area * h
-        elif region_shape == 'ring':
-            half_ring_width = 0.5 * self.params["region_width_kpc"]
-            ring_area = np.pi * (
-                (self.params["region_galactocentric_radio_kpc"] + half_ring_width) ** 2 -
-                (self.params["region_galactocentric_radio_kpc"] - half_ring_width) ** 2)
-            return ring_area * h
-        else:
-            raise Exception("Wrong region shape for disk. Allowed options: [square, ring]")
+        half_ring_width = 0.5 * self.params["region_width_kpc"]
+        ring_area = np.pi * (
+            (self.params["region_galactocentric_radio_kpc"] + half_ring_width) ** 2 -
+            (self.params["region_galactocentric_radio_kpc"] - half_ring_width) ** 2)
+        return ring_area * h
 
     def star_formation_rates(self, values, params):
         """Compute SFR for halo and disk
