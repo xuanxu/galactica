@@ -22,10 +22,19 @@ def run_model(g, params, t_span, t_eval, death_rate_interps=None):
   return solution, sfr_halo, sfr_disk
 
 
+def total_time_steps():
+  """
+  The stellar_lifetime of the most massive star considered (120 Msun) is around 3*10e6 years, i.e. 0.003 Gyrs,
+  so our time step should be smaller than that because their contribution would be otherwise canceled.
+  Taking 0.002 Gyrs as delta(t) we get: 13.2/0.002 = 6600 time steps.
+  """
+  return 6600
+
+
 g = Galaxy()
 
 time_span = [0, 13.2]
-time_eval = np.linspace(time_span[0], time_span[1], 1000)
+time_eval = np.linspace(time_span[0], time_span[1], 6600)
 radius = 8
 params = g.parameters(radius)
 
