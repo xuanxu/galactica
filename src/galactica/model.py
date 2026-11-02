@@ -34,7 +34,7 @@ def total_time_steps():
 g = Galaxy()
 
 time_span = [0, 13.2]
-time_eval = np.linspace(time_span[0], time_span[1], 6600)
+time_eval = np.linspace(time_span[0], time_span[1], total_time_steps())
 radius = 8
 params = g.parameters(radius)
 
@@ -48,6 +48,7 @@ for pass_num in range(1, 4):
         psi_halo_interp = interp1d(solution.t, sfr_halo, bounds_error=False, fill_value=0.0)
         psi_disk_interp = interp1d(solution.t, sfr_disk, bounds_error=False, fill_value=0.0)
         death_rates_interps = precompute_death_rates(g, time_eval, psi_halo_interp, psi_disk_interp)
+
     solution, sfr_halo, sfr_disk = run_model(g, params, time_span, time_eval, death_rates_interps)
 
 t = solution.t
